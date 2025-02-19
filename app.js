@@ -1,64 +1,54 @@
 // Pipeline data structure
 const stages = [
-  { name: 'Leads Recebidos', count: 1000, color: '#9b87f5' },
-  { name: 'Tentativa de Conexão', count: 750, color: '#8b77e5' },
-  { name: 'Conectado', count: 500, color: '#7b67d5' },
-  { name: 'Negociando', count: 250, color: '#6b57c5' },
-  { name: 'Venda', count: 100, color: '#5b47b5' }
+  { name: 'Leads Recebidos', count: 1000, color: '#ec0000' },
+  { name: 'Tentativa de Conexão', count: 750, color: '#d40000' },
+  { name: 'Conectado', count: 500, color: '#c00000' },
+  { name: 'Negociando', count: 250, color: '#b30000' },
+  { name: 'Venda', count: 100, color: '#a60000' }
 ];
 
-// State management
-let state = {
-  viewMode: 'static',
-  dateRange: {
-    from: null,
-    to: null
-  },
-  product: 'all',
-  campaign: 'all',
-  closedReason: 'all'
-};
-
 // DOM Elements
-const funnelContainer = document.getElementById('funnel-container');
 const viewButtons = document.querySelectorAll('[data-view]');
 const productSelect = document.getElementById('product');
 const campaignSelect = document.getElementById('campaign');
 const dateFromInput = document.getElementById('dateFrom');
 const dateToInput = document.getElementById('dateTo');
-const logoUpload = document.getElementById('logoUpload');
-const logoPlaceholder = document.querySelector('.logo-placeholder');
 
-// Render funnel stages
-function renderFunnel() {
+// Event Listeners
+viewButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    viewButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    updateFunnel();
+  });
+});
+
+[productSelect, campaignSelect, dateFromInput, dateToInput].forEach(element => {
+  element.addEventListener('change', updateFunnel);
+});
+
+// Funnel Rendering
+function updateFunnel() {
+  const funnelContainer = document.getElementById('funnel-container');
   funnelContainer.innerHTML = '';
-  
-  const maxWidth = 100;
-  const minWidth = 40; // minimum width for the last stage
-  const widthStep = (maxWidth - minWidth) / (stages.length - 1);
-  
+
   stages.forEach((stage, index) => {
-    const width = maxWidth - (widthStep * index);
-    const opacity = 0.9 - (index * 0.1);
-    
     const stageElement = document.createElement('div');
     stageElement.className = 'funnel-stage fade-in';
-    stageElement.style.width = `${width}%`;
-    stageElement.style.opacity = opacity;
-    stageElement.style.background = `linear-gradient(to right, ${stage.color}, #2d1b4e)`;
-    
-    stageElement.innerHTML = `
-      <h3 class="text-xl font-semibold mb-2">${stage.name}</h3>
+    stageElement.style.width = `${100 - index * 10}%`;
+    stageElement.style.background = `linear-gradient(to right, ${stage.color}, ${stages[Math.min(index + 1, stages.length - 1)].color})`;
+
+    const content = `
+      <h3 class="text-xl font-semibold">${stage.name}</h3>
       <p class="text-2xl font-bold">${stage.count.toLocaleString()}</p>
-      ${index > 0 ? `
-        <div class="text-sm text-gray-300 mt-2">
-          ${Math.round((stage.count / stages[index - 1].count) * 100)}% conversion
-        </div>
-      ` : ''}
+      ${index > 0 ? `<div class="text-sm opacity-80">
+        ${Math.round((stage.count / stages[index - 1].count) * 100)}% conversion
+      </div>` : ''}
     `;
-    
+
+    stageElement.innerHTML = content;
     funnelContainer.appendChild(stageElement);
-    
+
     if (index < stages.length - 1) {
       const arrow = document.createElement('div');
       arrow.className = 'funnel-arrow';
@@ -67,49 +57,5 @@ function renderFunnel() {
   });
 }
 
-// Event Listeners
-viewButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    viewButtons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    state.viewMode = button.dataset.view;
-    renderFunnel();
-  });
-});
-
-productSelect.addEventListener('change', (e) => {
-  state.product = e.target.value;
-  renderFunnel();
-});
-
-campaignSelect.addEventListener('change', (e) => {
-  state.campaign = e.target.value;
-  renderFunnel();
-});
-
-dateFromInput.addEventListener('change', (e) => {
-  state.dateRange.from = e.target.value;
-  renderFunnel();
-});
-
-dateToInput.addEventListener('change', (e) => {
-  state.dateRange.to = e.target.value;
-  renderFunnel();
-});
-
-// Logo upload handling
-logoUpload.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      logoPlaceholder.innerHTML = `<img src="${e.target.result}" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-// Initialize the application
-document.addEventListener('DOMContentLoaded', () => {
-  renderFunnel();
-});
+// Initialize funnel on page load
+document.addEventListener('DOMContentLoaded', updateFunnel);
