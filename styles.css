@@ -1,12 +1,11 @@
-
 /* Base styles */
 :root {
-  --primary: #ec0000;
-  --primary-dark: #b30000;
-  --background: #ffffff;
-  --text: #333333;
-  --text-secondary: #666666;
-  --border: rgba(0, 0, 0, 0.1);
+  --primary: #9b87f5;
+  --primary-dark: #7c5bf2;
+  --background: #1a1f2c;
+  --text: #ffffff;
+  --text-secondary: #a0aec0;
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -27,7 +26,7 @@ body {
 }
 
 .bg-gradient {
-  background: linear-gradient(180deg, #ffffff 0%, #fff5f5 100%);
+  background: linear-gradient(180deg, #1a1f2c 0%, #2d1b4e 100%);
 }
 
 .container {
@@ -36,27 +35,16 @@ body {
   padding: 2rem;
 }
 
-/* Logo styles */
-.logo {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  width: 150px;
-  height: auto;
-}
-
 /* Header styles */
 .header {
   text-align: center;
   margin-bottom: 2rem;
-  padding-top: 2rem;
 }
 
 .header h1 {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: var(--primary);
 }
 
 .header p {
@@ -65,8 +53,8 @@ body {
 
 /* Filter panel styles */
 .filter-panel {
-  background: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -82,7 +70,6 @@ body {
 .filter-section h3 {
   margin-bottom: 1rem;
   font-size: 1.1rem;
-  color: var(--primary);
 }
 
 /* Button styles */
@@ -97,13 +84,12 @@ body {
 }
 
 .btn:hover {
-  background: rgba(236, 0, 0, 0.1);
+  background: rgba(155, 135, 245, 0.1);
 }
 
 .btn.active {
   background: var(--primary);
   border-color: var(--primary);
-  color: white;
 }
 
 .button-group {
@@ -115,7 +101,7 @@ body {
 .select {
   width: 100%;
   padding: 0.5rem;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   color: var(--text);
@@ -135,7 +121,7 @@ body {
 }
 
 .date-input {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -160,8 +146,9 @@ body {
   text-align: center;
   border-radius: 1rem;
   transition: transform 0.3s ease;
-  background: linear-gradient(to right, rgba(236, 0, 0, 0.8), rgba(179, 0, 0, 0.9));
-  color: white;
+  backdrop-filter: blur(10px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .funnel-stage:hover {
@@ -174,7 +161,7 @@ body {
   margin: 0.5rem auto;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid rgba(236, 0, 0, 0.3);
+  border-top: 20px solid rgba(155, 135, 245, 0.3);
 }
 
 .fade-in {
