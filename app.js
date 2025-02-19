@@ -16,8 +16,7 @@ let state = {
     to: null
   },
   product: 'all',
-  campaign: 'all',
-  closedReason: 'all'
+  campaign: 'all'
 };
 
 // DOM Elements
@@ -33,7 +32,7 @@ function renderFunnel() {
   funnelContainer.innerHTML = '';
   
   const maxWidth = 100;
-  const minWidth = 40; // minimum width for the last stage
+  const minWidth = 40;
   const widthStep = (maxWidth - minWidth) / (stages.length - 1);
   
   stages.forEach((stage, index) => {
