@@ -1,136 +1,115 @@
 
 import React, { useState } from 'react';
-import { Calendar } from "@/components/ui/calendar";
-import { Card } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
-interface Stage {
-  name: string;
-  count: number;
-  color: string;
-}
+const stages = [
+  { name: 'Leads Recebidos', count: 1000, color: '#9b87f5' },
+  { name: 'Tentativa de Conexão', count: 750, color: '#8b77e5' },
+  { name: 'Conectado', count: 500, color: '#7b67d5' },
+  { name: 'Negociando', count: 250, color: '#6b57c5' },
+  { name: 'Venda', count: 100, color: '#5b47b5' }
+];
 
 const SalesPipeline = () => {
-  const [viewMode, setViewMode] = useState<'static' | 'cohort'>('static');
-  const [dateRange, setDateRange] = useState<{
-    from: Date | undefined;
-    to: Date | undefined;
-  }>({
-    from: undefined,
-    to: undefined,
-  });
-  const [product, setProduct] = useState<string>('all');
-  const [campaign, setCampaign] = useState<string>('all');
-  const [closedReason, setClosedReason] = useState<string>('all');
+  const [viewMode, setViewMode] = useState('static');
+  const [product, setProduct] = useState('all');
+  const [campaign, setCampaign] = useState('all');
+  const [dateRange, setDateRange] = useState({ from: '', to: '' });
 
-  const stages: Stage[] = [
-    { name: 'Leads Recebidos', count: 1000, color: 'from-purple-400' },
-    { name: 'Tentativa de Conexão', count: 750, color: 'from-purple-500' },
-    { name: 'Conectado', count: 500, color: 'from-purple-600' },
-    { name: 'Negociando', count: 250, color: 'from-purple-700' },
-    { name: 'Venda', count: 100, color: 'from-purple-800' },
-  ];
+  const maxWidth = 100;
+  const minWidth = 40;
+  const widthStep = (maxWidth - minWidth) / (stages.length - 1);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-purple-900 p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">Sales Pipeline</h1>
-          <p className="text-gray-300">Track your sales progress across stages</p>
-        </div>
+    <div className="min-h-screen bg-gradient">
+      <div className="container mx-auto px-4 py-8">
+        <header className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-2">Sales Pipeline</h1>
+          <p className="text-gray-400">Track your sales progress across stages</p>
+        </header>
 
-        <Card className="filter-panel mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-white">View Mode</h3>
-              <div className="flex space-x-4">
-                <Button
-                  variant={viewMode === 'static' ? 'default' : 'outline'}
+        <div className="filter-panel mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="filter-section">
+              <h3 className="text-lg font-semibold mb-4">View Mode</h3>
+              <div className="flex gap-2">
+                <button 
+                  className={`btn ${viewMode === 'static' ? 'active' : ''}`}
                   onClick={() => setViewMode('static')}
-                  className="w-full"
                 >
                   Static
-                </Button>
-                <Button
-                  variant={viewMode === 'cohort' ? 'default' : 'outline'}
+                </button>
+                <button 
+                  className={`btn ${viewMode === 'cohort' ? 'active' : ''}`}
                   onClick={() => setViewMode('cohort')}
-                  className="w-full"
                 >
                   Cohort
-                </Button>
+                </button>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-white">Filters</h3>
+            <div className="filter-section">
+              <h3 className="text-lg font-semibold mb-4">Filters</h3>
               <div className="grid grid-cols-2 gap-4">
-                <Select onValueChange={setProduct} defaultValue={product}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Products</SelectItem>
-                    <SelectItem value="product1">Product 1</SelectItem>
-                    <SelectItem value="product2">Product 2</SelectItem>
-                  </SelectContent>
-                </Select>
+                <select 
+                  value={product}
+                  onChange={(e) => setProduct(e.target.value)}
+                  className="select"
+                >
+                  <option value="all">All Products</option>
+                  <option value="product1">Product 1</option>
+                  <option value="product2">Product 2</option>
+                </select>
 
-                <Select onValueChange={setCampaign} defaultValue={campaign}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Campaign" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Campaigns</SelectItem>
-                    <SelectItem value="campaign1">Campaign 1</SelectItem>
-                    <SelectItem value="campaign2">Campaign 2</SelectItem>
-                  </SelectContent>
-                </Select>
+                <select 
+                  value={campaign}
+                  onChange={(e) => setCampaign(e.target.value)}
+                  className="select"
+                >
+                  <option value="all">All Campaigns</option>
+                  <option value="campaign1">Campaign 1</option>
+                  <option value="campaign2">Campaign 2</option>
+                </select>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-white">Date Range</h3>
-              <div className="flex space-x-4">
-                <Calendar
-                  mode="single"
-                  selected={dateRange.from}
-                  onSelect={(date) => setDateRange({ ...dateRange, from: date })}
-                  className="rounded-md border"
+            <div className="filter-section">
+              <h3 className="text-lg font-semibold mb-4">Date Range</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="date"
+                  value={dateRange.from}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, from: e.target.value }))}
+                  className="date-input"
+                />
+                <input
+                  type="date"
+                  value={dateRange.to}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, to: e.target.value }))}
+                  className="date-input"
                 />
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
         <div className="funnel-container">
           {stages.map((stage, index) => (
             <React.Fragment key={stage.name}>
-              <div
-                className={`funnel-stage glass-card bg-gradient-to-r ${stage.color} to-purple-900`}
+              <div 
+                className="funnel-stage fade-in"
                 style={{
-                  width: `${100 - index * 10}%`,
-                  opacity: 0.9 - index * 0.1,
+                  width: `${maxWidth - (widthStep * index)}%`,
+                  opacity: 0.9 - (index * 0.1),
+                  background: `linear-gradient(to right, ${stage.color}, #2d1b4e)`
                 }}
               >
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {stage.name}
-                </h3>
-                <p className="text-2xl font-bold text-white">
-                  {stage.count.toLocaleString()}
-                </p>
-                <div className="text-sm text-gray-300 mt-2">
-                  {index > 0 &&
-                    `${Math.round(
-                      (stage.count / stages[index - 1].count) * 100
-                    )}% conversion`}
-                </div>
+                <h3 className="text-xl font-semibold mb-2">{stage.name}</h3>
+                <p className="text-2xl font-bold">{stage.count.toLocaleString()}</p>
+                {index > 0 && (
+                  <div className="text-sm text-gray-300 mt-2">
+                    {Math.round((stage.count / stages[index - 1].count) * 100)}% conversion
+                  </div>
+                )}
               </div>
               {index < stages.length - 1 && <div className="funnel-arrow" />}
             </React.Fragment>
