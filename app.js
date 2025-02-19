@@ -1,4 +1,3 @@
-
 // Pipeline data structure
 const stages = [
   { name: 'Leads Recebidos', count: 1000, color: '#9b87f5' },
@@ -27,6 +26,8 @@ const productSelect = document.getElementById('product');
 const campaignSelect = document.getElementById('campaign');
 const dateFromInput = document.getElementById('dateFrom');
 const dateToInput = document.getElementById('dateTo');
+const logoUpload = document.getElementById('logoUpload');
+const logoPlaceholder = document.querySelector('.logo-placeholder');
 
 // Render funnel stages
 function renderFunnel() {
@@ -94,6 +95,18 @@ dateFromInput.addEventListener('change', (e) => {
 dateToInput.addEventListener('change', (e) => {
   state.dateRange.to = e.target.value;
   renderFunnel();
+});
+
+// Logo upload handling
+logoUpload.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      logoPlaceholder.innerHTML = `<img src="${e.target.result}" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
+    };
+    reader.readAsDataURL(file);
+  }
 });
 
 // Initialize the application

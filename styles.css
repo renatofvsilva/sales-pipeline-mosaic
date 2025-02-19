@@ -178,3 +178,41 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Logo upload styles */
+.logo-upload {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.logo-label {
+  cursor: pointer;
+  display: block;
+}
+
+.logo-placeholder {
+  width: 150px;
+  height: 60px;
+  border: 2px dashed var(--border);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.logo-placeholder:hover {
+  border-color: var(--primary);
+  background: rgba(155, 135, 245, 0.1);
+}
+
+.logo-placeholder span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hidden-input {
+  display: none;
+}
