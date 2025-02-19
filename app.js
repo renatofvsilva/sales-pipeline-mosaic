@@ -32,8 +32,12 @@ const dateToInput = document.getElementById('dateTo');
 function renderFunnel() {
   funnelContainer.innerHTML = '';
   
+  const maxWidth = 100;
+  const minWidth = 40; // minimum width for the last stage
+  const widthStep = (maxWidth - minWidth) / (stages.length - 1);
+  
   stages.forEach((stage, index) => {
-    const width = 100 - (index * 10);
+    const width = maxWidth - (widthStep * index);
     const opacity = 0.9 - (index * 0.1);
     
     const stageElement = document.createElement('div');
