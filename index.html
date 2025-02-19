@@ -8,59 +8,9 @@
     <meta name="description" content="Track your sales pipeline progress across different stages" />
     <meta name="author" content="Lovable" />
     <meta property="og:image" content="/og-image.png" />
-    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="min-h-screen bg-gradient">
-      <div class="container">
-        <header class="header">
-          <h1>Sales Pipeline</h1>
-          <p>Track your sales progress across stages</p>
-        </header>
-
-        <div class="filter-panel">
-          <div class="filter-grid">
-            <div class="filter-section">
-              <h3>View Mode</h3>
-              <div class="button-group">
-                <button class="btn active" data-view="static">Static</button>
-                <button class="btn" data-view="cohort">Cohort</button>
-              </div>
-            </div>
-
-            <div class="filter-section">
-              <h3>Filters</h3>
-              <div class="select-group">
-                <select id="product" class="select">
-                  <option value="all">All Products</option>
-                  <option value="product1">Product 1</option>
-                  <option value="product2">Product 2</option>
-                </select>
-
-                <select id="campaign" class="select">
-                  <option value="all">All Campaigns</option>
-                  <option value="campaign1">Campaign 1</option>
-                  <option value="campaign2">Campaign 2</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="filter-section">
-              <h3>Date Range</h3>
-              <div class="date-inputs">
-                <input type="date" id="dateFrom" class="date-input">
-                <input type="date" id="dateTo" class="date-input">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="funnel-container" class="funnel-container">
-          <!-- Funnel stages will be dynamically inserted here -->
-        </div>
-      </div>
-    </div>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script src="app.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
